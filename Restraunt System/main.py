@@ -2,7 +2,7 @@ from menu import Menu
 from customer_data import Customer, registered_customers
 from reservation import TableReservation
 from generate_bill import bill
-from File_Managing_system import FileManager
+from file_manager import FileManager
 import sys
 
 restaurant_menu = Menu()
