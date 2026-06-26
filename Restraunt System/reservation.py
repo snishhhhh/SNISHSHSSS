@@ -1,67 +1,110 @@
 from datetime import datetime
 import random
-reservations=[]
-class Table_reservation:
+
+
+reservations = {}
+
+
+class TableReservation:
+
     def __init__(self):
-        self.name= ""
-        self.phone_number= ""
-        self.number_of_people= ""
-        self.date= ""
-        self.time= ""
-        self.reservation_id= None
-        self.table= 0
-        self.date_and_time= None
-        
+
+        self.reservation_id = None
+        self.name = ""
+        self.phone_number = ""
+        self.number_of_people = 0
+        self.date = ""
+        self.time = ""
+        self.table = 0
+        self.date_and_time = None
+
     def make_reservation(self):
-        self.name= input("Enter the name of the reserver: " )
-        self.phone_number= input("Enter the reserver phone number: ")
-        self.number_of_people= int(input("Enter the number of guest being reserved: "))
-        self.date= input ("Enter the Date for reservation (yyyy-mm-dd): ")
-        self.time= input("Enter the Time for reservation (hh:mm): ")
-        self.table= int(input("Please enter table number you want to reserv: "))
-        self.date_and_time= datetime.strptime(f"{self.date} {self.time}", "%Y-%m-%d %H:%M")
+
+        self.name = input("Enter customer name: ")
+        self.phone_number = input("Enter phone number: ")
+        self.number_of_people = int(input("Enter number of guests: "))
+        self.date = input("Enter reservation date (YYYY-MM-DD): ")
+        self.time = input("Enter reservation time (HH:MM): ")
+        self.table = int(input("Enter table number: "))
+
+        self.date_and_time = datetime.strptime(
+            f"{self.date} {self.time}",
+            "%Y-%m-%d %H:%M"
+        )
+
         while True:
-            reservation_id=random.randint(1000,9999)
-            if not any(r.reservation_id== reservation_id for r in reservations):
-                self.reservation_id= reservation_id
+
+            reservation_id = random.randint(1000, 9999)
+
+            if reservation_id not in reservations:
+                self.reservation_id = reservation_id
                 break
-        reservations.append(self)
-        print(f"You have booked a reservation sucssefully, here is your reservation number: {self.reservation_id}")
-    def modify_reservation(self):
-        reservation_id= int(input("Provide reservation number of reservation you want to modify: "))
-        for reservation in reservations:
-            if reservation.reservation_id== reservation_id:
-                print ("\nPlease provide new details: " )
-                reservation.name= input("Enter the name of the reserver: " )
-                reservation.phone_number= input("Enter the reserver phone number: ")
-                reservation.number_of_people= int(input("Enter the number of guest being reserved: "))
-                reservation.date= input ("Enter the Date for reservation (yyyy-mm-dd): ")
-                reservation.time= input("Enter the Time for reservation (hh:mm): ")
-                reservation.table= int(input("Please enter table number you want to reserv: "))
-                reservation.date_and_time= datetime.strptime(f"{reservation.date} {reservation.time}", "%Y-%m-%d %H:%M")
-                print("Reservation updated sucssefully")
-                return
-        
-        print("Reservation number not found")
-    def delete_reservation(self):
-        reservation_id= int(input("Please input the reservation number you want to delete: "))
-        for reservation in reservations:
-            if reservation.reservation_id== reservation_id:
-                reservations.remove(reservation)
-                print("Reservation deleted sucssefully")
-                return
-        print("Reservation number not found")
+
+        reservations[self.reservation_id] = self
+
+        print("\nReservation created successfully.")
+        print(f"Reservation ID: {self.reservation_id}")
+
+    # View reservation
     def view_reservation(self):
-        reservation_id= int(input("Please input the reservation number: "))
-        for reservation in reservations:
-            if reservation.reservation_id== reservation_id:
-                print(f"reserver name: {reservation.name}\n",
-                      f"Reserver phone number:{reservation.phone_number}\n",
-                      f"Guest number: {reservation.number_of_people}\n"
-                      f"Reserved date and time: {reservation.date_and_time}\n",
-                      f"Reserved table number: {reservation.table}\n" )
-                return
-        print("Reservation number not found")
+
+        reservation_id = int(input("Enter reservation ID: "))
+
+        if reservation_id not in reservations:
+            print("Reservation not found.")
+            return
+
+        reservation = reservations[reservation_id]
+
+        print("\n===== RESERVATION DETAILS =====")
+        print(f"Reservation ID : {reservation.reservation_id}")
+        print(f"Customer Name  : {reservation.name}")
+        print(f"Phone Number   : {reservation.phone_number}")
+        print(f"Guests         : {reservation.number_of_people}")
+        print(f"Date & Time    : {reservation.date_and_time}")
+        print(f"Table Number   : {reservation.table}")
+
+    # Modify reservation
+    def modify_reservation(self):
+
+        reservation_id = int(input("Enter reservation ID: "))
+
+        if reservation_id not in reservations:
+            print("Reservation not found.")
+            return
+
+        reservation = reservations[reservation_id]
+
+        print("\nEnter new details")
+
+        reservation.name = input("Customer Name: ")
+        reservation.phone_number = input("Phone Number: ")
+        reservation.number_of_people = int(input("Guests: "))
+        reservation.date = input("Date (YYYY-MM-DD): ")
+        reservation.time = input("Time (HH:MM): ")
+        reservation.table = int(input("Table Number: "))
+
+        reservation.date_and_time = datetime.strptime(
+            f"{reservation.date} {reservation.time}",
+            "%Y-%m-%d %H:%M"
+        )
+
+        print("Reservation updated successfully.")
+
+
+    def delete_reservation(self):
+
+        reservation_id = int(input("Enter reservation ID: "))
+
+        if reservation_id in reservations:
+
+            del reservations[reservation_id]
+
+            print("Reservation deleted successfully.")
+
+        else:
+
+            print("Reservation not found.")
 
    
         
