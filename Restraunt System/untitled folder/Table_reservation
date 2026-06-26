@@ -1,0 +1,15 @@
+import datetime
+import random
+reservation={}
+class table_reservation:
+    def __init__(self,name,phone_number, number_of_people, date, time, reservation_id, table):
+        self.name= name
+        self.phone_number= phone_number
+        self.number_of_people= int(number_of_people)
+        self.date= date
+        self.time= time
+        self.reservation_id= reservation_id
+        self.table= int(table)
+    def make_reservation(self, name, number_of_people, date, time, reservation_id, table ):
+            
+    
